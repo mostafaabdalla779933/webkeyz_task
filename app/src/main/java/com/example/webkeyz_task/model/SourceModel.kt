@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class SourceModel(
 
-
     @field:SerializedName("name")
     val name: String? = null,
 

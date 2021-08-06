@@ -6,14 +6,15 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
-class NetworkManager @Inject constructor(private val apiService : APIService)  {
+class NetworkManager @Inject constructor(private val apiService : APIService) : INetworkManager {
 
     companion object{
         const val size = 20
         const val maxSize = 100
     }
 
-    suspend fun  getRequest(
+    // use get request to get list of articles based on page number
+    override suspend fun  getRequest(
         api: String,
         page :String
     ): Response<NewsResponse> = withContext(Dispatchers.IO) {

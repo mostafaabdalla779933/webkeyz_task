@@ -1,9 +1,7 @@
 package com.example.webkeyz_task.ui.listing
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.webkeyz_task.Data.local.SharedPref
 import com.example.webkeyz_task.model.ArticleModel
 import com.example.webkeyz_task.repo.NewsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +18,12 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
     var error = MutableLiveData<Boolean>()
     var stateLiveData = MutableLiveData<String?>()
     var list = mutableListOf<ArticleModel>()
-    var _page = 1
+    var page = 1
 
 
     fun fetchPosts(){
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch{
-           val response = repo.fetchPosts(_page.toString())
+           val response = repo.fetchPosts(page.toString())
             handleError(response.code())
             if (response.isSuccessful){
                 list = postsList.value ?: mutableListOf()
@@ -42,7 +40,6 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
 
     // handle api response code
     private fun handleError(code : Int){
-        Log.i("main", "handleError: $code")
         when {
             code == 0 ->{
                 error.postValue(true)
@@ -50,7 +47,6 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
             }
             code in 200..399 -> {
                 stateLiveData.postValue(null)
-              //  stateLiveData.postValue("connection success")
             }
             code in 400..499 -> {
                 // client error
@@ -65,7 +61,7 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
     }
 
 
-    private val coroutineExceptionHandler= CoroutineExceptionHandler{ _, thro ->
+    private val coroutineExceptionHandler= CoroutineExceptionHandler{ _, _ ->
         handleError(0)
     }
 }

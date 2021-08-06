@@ -1,7 +1,6 @@
 package com.example.webkeyz_task.ui.listing
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,28 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.webkeyz_task.Data.local.SharedPref
 import com.example.webkeyz_task.Data.remote.NetworkManager
 import com.example.webkeyz_task.R
 import com.example.webkeyz_task.databinding.FragmentListingBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class ListingFragment : Fragment() {
-
-
     lateinit var binding : FragmentListingBinding
     lateinit var articleAdapte: ArticleAdapter
     lateinit var viewModel: NewsViewModel
     var post  = 0
     val size = NetworkManager.size
     val maxSize = NetworkManager.maxSize
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +37,9 @@ class ListingFragment : Fragment() {
         initViewModel()
         initRecycleView()
         observeOnLiveData()
-
-        if(viewModel._page == 1) {
+        if(viewModel.page == 1) {
             viewModel.fetchPosts()
         }
-
         return binding.root
     }
 
@@ -72,22 +63,15 @@ class ListingFragment : Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 post = (Objects.requireNonNull(recyclerView.layoutManager) as GridLayoutManager).findLastVisibleItemPosition()
-
-                Log.i("main", " page : ${viewModel._page}    size : ${articleAdapte.currentList.size}  ")
-                if (post >= size * viewModel._page -1 && post < maxSize -1 ) {
+                if (post >= size * viewModel.page -1 && post < maxSize -1 ) {
                     binding.progressBar.visibility = View.VISIBLE
-                    viewModel._page ++
+                    viewModel.page ++
                     viewModel.fetchPosts()
                 }
             }
         })
     }
 
-
-    override fun onResume() {
-        super.onResume()
-       // page = shared.getPage()
-    }
 
     private fun observeOnLiveData(){
         viewModel.postsList.observe(viewLifecycleOwner){posts ->
@@ -99,8 +83,8 @@ class ListingFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner){ offline ->
             if(offline){
                 binding.progressBar .visibility = View.GONE
-                Snackbar.make(binding.root ,"connection failed", Snackbar.LENGTH_INDEFINITE )
-                    .setAction("reload") {
+                Snackbar.make(binding.root ,getString(R.string.connection_failed), Snackbar.LENGTH_INDEFINITE )
+                    .setAction(getString(R.string.reload)) {
                         binding.progressBar.visibility = View.VISIBLE
                         viewModel.fetchPosts()
                     }.show()

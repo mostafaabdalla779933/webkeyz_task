@@ -3,14 +3,11 @@ package com.example.webkeyz_task.ui.detials
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
@@ -19,9 +16,9 @@ import com.example.webkeyz_task.databinding.FragmentDetialsBinding
 import com.example.webkeyz_task.model.ArticleModel
 import com.example.webkeyz_task.ui.MainActivity
 import com.example.webkeyz_task.util.getLoading
+import com.example.webkeyz_task.util.setClickableAnimation
 
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.news_layout.view.*
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -37,10 +34,18 @@ class DetailsFragment : Fragment() {
     ): View {
         binding = FragmentDetialsBinding.inflate(layoutInflater)
 
+        displayDetails()
+        setActionListeners()
 
-        arguments?.let { bundele ->
 
-            (bundele.get("article") as ArticleModel).let { art ->
+        return binding.root
+    }
+
+
+    private fun displayDetails(){
+        arguments?.let { bundle ->
+
+            (bundle.get("article") as ArticleModel).let { art ->
                 article = art
 
                 binding.apply {
@@ -52,15 +57,21 @@ class DetailsFragment : Fragment() {
                         .load(article.urlToImage)
                         .placeholder(getLoading(requireContext()))
                         .error(requireContext().getDrawable(R.drawable.ic_failed))
-                        .into(binding.ivNews)
+                        .into(ivNews)
                 }
             }
         }
+        (requireActivity() as MainActivity).binding.tvTitle.text = article.title
+
+    }
+
+
+    private fun setActionListeners(){
 
         binding.ivNews.setOnClickListener {
 
             val bundle = bundleOf("image" to article.urlToImage)
-            Navigation.findNavController(this.requireView()).navigate(R.id.imageFragment,bundle)
+            Navigation.findNavController(this.requireView()).navigate(R.id.action_detials_to_imge,bundle)
 
         }
 
@@ -78,8 +89,6 @@ class DetailsFragment : Fragment() {
             Navigation.findNavController(this.requireView()).popBackStack()
         }
 
-        (requireActivity() as MainActivity).binding.tvTitle.text = article.title
-
 
 
         binding.btnReadMore.setOnClickListener {
@@ -90,11 +99,5 @@ class DetailsFragment : Fragment() {
                 Toast.makeText(requireContext(),"something went wrong", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
-        return binding.root
     }
-
-
 }

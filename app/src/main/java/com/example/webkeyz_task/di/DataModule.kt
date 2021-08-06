@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.webkeyz_task.Data.remote.APIService
 import com.example.webkeyz_task.Data.remote.EndPoint
+import com.example.webkeyz_task.Data.remote.INetworkManager
+import com.example.webkeyz_task.Data.remote.NetworkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +30,11 @@ class DataModule {
 
     }
 
+    @Provides
+    @Singleton
+    fun provideNetworkManager(api: APIService): INetworkManager {
+        return NetworkManager(api)
+    }
 
 
     @Provides

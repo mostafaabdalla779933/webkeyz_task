@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
+    // make toolbar fit to the fragment on nav_graph
     private fun addListenerToNavGraph(){
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.f_container) as NavHostFragment
         val navController = navHostFragment.navController
