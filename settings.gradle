@@ -1,0 +1,2 @@
+rootProject.name = "WebKeyz_Task"
+include ':app'
