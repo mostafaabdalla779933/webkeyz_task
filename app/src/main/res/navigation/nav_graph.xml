@@ -8,13 +8,27 @@
     <fragment
         android:id="@+id/listingFragment"
         android:name="com.example.webkeyz_task.ui.listing.ListingFragment"
-        android:label="ListingFragment" />
+        android:label="ListingFragment" >
+        <action android:id="@+id/action_list_to_detials"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
 
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.webkeyz_task.ui.detials.DetailsFragment"
         android:label="fragment_detials"
-        tools:layout="@layout/fragment_detials" />
+        tools:layout="@layout/fragment_detials" >
+        <action android:id="@+id/action_detials_to_imge"
+            app:destination="@id/imageFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/imageFragment"
         android:name="com.example.webkeyz_task.ui.detials.ImageFragment"

@@ -40,7 +40,7 @@ class ArticleAdapter(val onclick : (ArticleModel) -> Unit) : ListAdapter<Article
         }
 
         holder.itemView.tv_title.text = getItem(position).title
-        holder.itemView.tv_link.text = getItem(position).url
+        
 
         Glide.with(holder.itemView.context)
             .load(getItem(position).urlToImage)

@@ -16,19 +16,16 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel() {
 
-
-    @Inject
-    lateinit var shared: SharedPref
-
     var postsList  = MutableLiveData<MutableList<ArticleModel>>()
     var error = MutableLiveData<Boolean>()
     var stateLiveData = MutableLiveData<String?>()
     var list = mutableListOf<ArticleModel>()
+    var _page = 1
 
 
-    fun fetchPosts(page : Int){
+    fun fetchPosts(){
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch{
-           val response = repo.fetchPosts(page.toString())
+           val response = repo.fetchPosts(_page.toString())
             handleError(response.code())
             if (response.isSuccessful){
                 list = postsList.value ?: mutableListOf()
@@ -36,10 +33,8 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
                     list.addAll(news.toMutableList() )
                     postsList.postValue(list)
                     error.postValue(false)
-                    shared.putPage(page)
                 }
             }else{
-                Log.i("main", "fetchPosts: " + response.errorBody()?.string())
                 error.postValue(true)
             }
         }
