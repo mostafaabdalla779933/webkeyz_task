@@ -28,8 +28,6 @@ class SplashActivity : AppCompatActivity() {
             delay(1000)
             navigate()
         }
-
-
     }
 
 

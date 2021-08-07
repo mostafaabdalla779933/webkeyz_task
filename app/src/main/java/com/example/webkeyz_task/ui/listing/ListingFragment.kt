@@ -37,7 +37,7 @@ class ListingFragment : Fragment() {
         initViewModel()
         initRecycleView()
         observeOnLiveData()
-        if(viewModel.page == 1) {
+        if(viewModel.page == 0) {
             viewModel.fetchPosts()
         }
         return binding.root
@@ -65,7 +65,6 @@ class ListingFragment : Fragment() {
                 post = (Objects.requireNonNull(recyclerView.layoutManager) as GridLayoutManager).findLastVisibleItemPosition()
                 if (post >= size * viewModel.page -1 && post < maxSize -1 ) {
                     binding.progressBar.visibility = View.VISIBLE
-                    viewModel.page ++
                     viewModel.fetchPosts()
                 }
             }

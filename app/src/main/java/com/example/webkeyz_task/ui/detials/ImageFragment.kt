@@ -1,15 +1,16 @@
 package com.example.webkeyz_task.ui.detials
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.webkeyz_task.R
 import com.example.webkeyz_task.databinding.FragmentImageBinding
 import com.example.webkeyz_task.util.getLoading
+
 
 
 class ImageFragment : Fragment() {
@@ -21,6 +22,8 @@ class ImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentImageBinding.inflate(layoutInflater)
+
+
 
 
         arguments?.let {

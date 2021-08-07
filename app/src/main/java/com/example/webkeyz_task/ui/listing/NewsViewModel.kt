@@ -18,11 +18,12 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
     var error = MutableLiveData<Boolean>()
     var stateLiveData = MutableLiveData<String?>()
     var list = mutableListOf<ArticleModel>()
-    var page = 1
+    var page = 0
 
 
     fun fetchPosts(){
         CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch{
+            page ++
            val response = repo.fetchPosts(page.toString())
             handleError(response.code())
             if (response.isSuccessful){
