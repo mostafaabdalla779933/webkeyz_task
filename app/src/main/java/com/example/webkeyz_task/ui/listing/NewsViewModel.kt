@@ -1,5 +1,6 @@
 package com.example.webkeyz_task.ui.listing
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.webkeyz_task.model.ArticleModel
@@ -34,6 +35,7 @@ class NewsViewModel @Inject constructor(private val repo: NewsRepo): ViewModel()
                     error.postValue(false)
                 }
             }else{
+                Log.i("main", "fetchPosts: "+ (response.errorBody()?.string() ?: ""))
                 error.postValue(true)
             }
         }

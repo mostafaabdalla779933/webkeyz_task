@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
@@ -30,7 +31,7 @@ class ImageFragment : Fragment() {
             Glide.with(requireContext())
                 .load(it.get("image") )
                 .placeholder(getLoading(requireContext()))
-                .error(requireContext().getDrawable(R.drawable.ic_failed))
+                .error(AppCompatResources.getDrawable(requireContext(),R.drawable.ic_failed))
                 .into(binding.iv)
         }
 
